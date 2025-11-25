@@ -1,0 +1,124 @@
+/*
+ * ad_filter.c
+ *
+ *  Created on: Jun 5, 2022
+ *      Author: abel
+ */
+
+
+#include <algorithm/filter/ad_filter.h>
+
+
+
+
+ad_filter_st adc1_filters[2];
+
+
+void init_ad_filter(ad_filter_st *pfilter, int skip_num, uint32_t jitter_amp)
+{
+	memset(pfilter->vals, 0, sizeof(pfilter->vals));
+
+	pfilter->jitter_amp = jitter_amp;
+	pfilter->skip_num = skip_num;
+
+	pfilter->val_1st = 0;
+	pfilter->val_last = 0;
+	pfilter->val_offs = 0;
+	pfilter->val_count = 0;
+}
+
+int ad_filter_handler(ad_filter_st *pfilter, uint32_t *vals, int qty)
+{
+	int i, idx, buff_size;
+	uint32_t val, offs;
+	uint32_t val_avg;
+
+
+	pfilter = &adc1_filters[0];
+	buff_size = ARRAY_SIZE(pfilter->vals);
+
+
+	for(idx=0; idx<qty; idx++){
+
+		pfilter->sample_count++;
+
+
+		val = vals[idx];
+
+//		console_printx(fln, "adc injected value %d : %u", idx+1, val);
+
+
+//		console_printx(fln, "bemf filter val count %d , offs %d, 1st %u, last %u"
+//				, bemf->val_count, bemf->val_offs, bemf->val_1st, bemf->val_last);
+
+		if(pfilter->val_count == 0){
+
+			pfilter->vals[pfilter->val_offs] = val;
+			pfilter->val_offs++;
+
+			if(pfilter->sample_count >= pfilter->skip_num){
+
+				if(pfilter->val_offs < buff_size){
+					if(abs(val - pfilter->vals[pfilter->val_offs - 1]) >= pfilter->jitter_amp){
+						continue;
+					}
+					pfilter->vals[pfilter->val_offs++] = val;
+				}
+
+				if(pfilter->val_offs == buff_size){
+					val_avg = 0;
+					for(i=0; i<pfilter->val_offs; i++){
+						val_avg += pfilter->vals[i];
+					}
+					val_avg /= pfilter->val_offs;
+
+					pfilter->vals[0] = val_avg;
+					pfilter->val_1st = val_avg;
+					pfilter->val_last = val_avg;
+
+					pfilter->val_offs = 1;
+					pfilter->val_count++;
+				}
+
+			}
+		}
+		else{
+
+			if(abs(val - pfilter->val_last) >= pfilter->jitter_amp){
+				continue;
+			}
+
+			if(pfilter->val_count < buff_size - 1){
+				pfilter->val_last = val;
+				pfilter->vals[pfilter->val_offs] = val;
+				pfilter->val_offs++;
+				pfilter->val_count++;
+			}
+			else{
+				val_avg = 0;
+				for(i=0; i<buff_size; i++){
+					val_avg += pfilter->vals[i];
+				}
+				val_avg /= buff_size;
+
+				if(abs(val - val_avg) >= pfilter->jitter_amp){
+					continue;
+				}
+
+				pfilter->val_last = val;
+				pfilter->vals[pfilter->val_offs] = val;
+				pfilter->val_offs++;
+				pfilter->val_count++;
+
+				if(pfilter->val_offs >= buff_size){
+					pfilter->val_offs = 0;
+				}
+
+			}
+
+		}
+	}
+
+	return pfilter->val_last;
+
+}

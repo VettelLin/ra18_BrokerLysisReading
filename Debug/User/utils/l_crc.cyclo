@@ -1,0 +1,5 @@
+../User/utils/l_crc.c:12:9:calc_crc8	4
+../User/utils/l_crc.c:36:10:docrc16	2
+../User/utils/l_crc.c:54:10:calc_crc16	2
+../User/utils/l_crc.c:69:10:CRCByte	6
+../User/utils/l_crc.c:94:10:calc_crc32	7

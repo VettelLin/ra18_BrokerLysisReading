@@ -1,0 +1,31 @@
+/*
+ * ad_filter.h
+ *
+ *  Created on: Jun 5, 2022
+ *      Author: abel
+ */
+
+#ifndef ALGORITHM_FILTER_AD_FILTER_H_
+#define ALGORITHM_FILTER_AD_FILTER_H_
+
+#include <stdint.h>
+
+
+typedef struct{
+	uint32_t vals[10];
+	int val_count;
+	int sample_count;
+	uint8_t val_offs;
+	uint8_t skip_num;
+	uint32_t val_1st;
+	uint32_t val_last;
+	uint32_t jitter_amp;
+}ad_filter_st;
+
+
+void init_ad_filter(ad_filter_st *pfilter, int skip_num, uint32_t jitter_amp);
+int ad_filter_handler(ad_filter_st *pfilter, uint32_t *vals, int qty);
+
+
+
+#endif /* ALGORITHM_FILTER_AD_FILTER_H_ */

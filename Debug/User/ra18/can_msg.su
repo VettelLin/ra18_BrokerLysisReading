@@ -1,0 +1,3 @@
+../User/ra18/can_msg.c:29:6:tempburst_start	16	static
+../User/ra18/can_msg.c:39:6:tempburst_task	184	static
+../User/ra18/can_msg.c:89:6:can_user_RxCallback	48	static

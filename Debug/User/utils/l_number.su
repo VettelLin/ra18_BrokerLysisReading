@@ -1,0 +1,4 @@
+../User/utils/l_number.c:25:5:pfloatcmp	24	static
+../User/utils/l_number.c:30:5:pdoublecmp	24	static
+../User/utils/l_number.c:35:5:floatcmp	24	static
+../User/utils/l_number.c:40:5:doublecmp	24	static

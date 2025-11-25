@@ -1,0 +1,8 @@
+../User/utils/l_net.c:15:5:netmask_bits	3
+../User/utils/l_net.c:29:7:ip_i2strxxx	1
+../User/utils/l_net.c:41:7:ip_i2str	1
+../User/utils/l_net.c:53:7:ip_i2a	1
+../User/utils/l_net.c:66:10:ip_a2i	8
+../User/utils/l_net.c:98:7:mac_arr2str	2
+../User/utils/l_net.c:112:7:mac_arr2str1	2
+../User/utils/l_net.c:126:7:mac_str2arr	1

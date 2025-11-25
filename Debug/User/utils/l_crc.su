@@ -1,0 +1,5 @@
+../User/utils/l_crc.c:12:9:calc_crc8	24	static
+../User/utils/l_crc.c:36:10:docrc16	64	static
+../User/utils/l_crc.c:54:10:calc_crc16	24	static
+../User/utils/l_crc.c:69:10:CRCByte	24	static
+../User/utils/l_crc.c:94:10:calc_crc32	32	static

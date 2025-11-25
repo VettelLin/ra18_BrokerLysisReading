@@ -1,0 +1,4 @@
+../User/utils/l_number.c:25:5:pfloatcmp	3
+../User/utils/l_number.c:30:5:pdoublecmp	3
+../User/utils/l_number.c:35:5:floatcmp	3
+../User/utils/l_number.c:40:5:doublecmp	3

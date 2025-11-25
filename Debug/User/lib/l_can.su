@@ -1,0 +1,11 @@
+../User/lib/l_can.c:27:6:canlog_drain	224	static
+../User/lib/l_can.c:52:13:can_rxMsg_handler	24	static
+../User/lib/l_can.c:59:13:can_error_handler	16	static
+../User/lib/l_can.c:64:6:HAL_CAN_RxFifo0MsgPendingCallback	160	static
+../User/lib/l_can.c:105:6:HAL_CAN_RxFifo1MsgPendingCallback	160	static
+../User/lib/l_can.c:147:6:HAL_CAN_ErrorCallback	16	static
+../User/lib/l_can.c:152:6:can_activate_error_it	16	static
+../User/lib/l_can.c:166:5:can_sendStdMessage	56	static
+../User/lib/l_can.c:184:5:can_sendExtMessage	56	static
+../User/lib/l_can.c:205:5:can_config_filter	64	static
+../User/lib/l_can.c:229:6:can_default_setup	32	static

@@ -1,0 +1,4 @@
+../User/lib/l_gpio.c:14:6:gpio_set_mode	32	static
+../User/lib/l_gpio.c:31:5:gpio_get_status	24	static
+../User/lib/l_gpio.c:41:6:gpio_set_status	16	static
+../User/lib/l_gpio.c:48:6:gpio_reverse	16	static

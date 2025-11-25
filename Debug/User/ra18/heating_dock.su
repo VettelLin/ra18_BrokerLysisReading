@@ -1,0 +1,7 @@
+../User/ra18/heating_dock.c:31:6:InitHeatingDock	40	static
+../User/ra18/heating_dock.c:93:5:send_heatdock_request	16	static
+../User/ra18/heating_dock.c:100:5:ps96_process_heatdock_msg	80	static
+../User/ra18/heating_dock.c:209:13:check_heatcom_update	16	static
+../User/ra18/heating_dock.c:228:13:check_heatcom_rxflag	24	static
+../User/ra18/heating_dock.c:260:5:send_ps96msg	32	static
+../User/ra18/heating_dock.c:283:5:heatdock_response_handler	136	static

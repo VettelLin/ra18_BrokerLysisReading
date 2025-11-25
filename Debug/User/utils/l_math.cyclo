@@ -1,0 +1,6 @@
+../User/utils/l_math.c:12:6:plane_coordinate_xy2polar	1
+../User/utils/l_math.c:18:6:plane_coordinate_rad2rect	1
+../User/utils/l_math.c:26:6:plane_coordinate_rect2polar	1
+../User/utils/l_math.c:31:6:plane_coordinate_polar2rect	1
+../User/utils/l_math.c:36:6:space_coordinate_rect2spher	1
+../User/utils/l_math.c:43:6:space_coordinate_spher2rect	1
