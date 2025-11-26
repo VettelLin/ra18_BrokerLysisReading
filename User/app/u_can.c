@@ -23,6 +23,7 @@ void can_rxMsg_handler(CAN_HandleTypeDef *hcan, CAN_RxHeaderTypeDef *pHead, uint
 {
 	int i;
 
+#if defined(VERBOSE_CAN_RX_ISR)
 	printf("can rxHeader : ide %#x, stdid %#x, extid %#x\r\n", pHead->IDE, pHead->StdId, pHead->ExtId);
 	printf("can rxHeader : RTR %#x, dlc %#x\r\n", pHead->RTR, pHead->DLC);
 	printf("can rxHeader : Timestamp %#x, FilterMatchIndex %#x\r\n", pHead->Timestamp, pHead->FilterMatchIndex);
@@ -30,6 +31,7 @@ void can_rxMsg_handler(CAN_HandleTypeDef *hcan, CAN_RxHeaderTypeDef *pHead, uint
 	for(i=0; i<pHead->DLC; i++){
 		printf("byte[%d] = %#.2x\r\n", i, rxbuff[i]);
 	}
+#endif
 
 	can_user_RxCallback(hcan, pHead, rxbuff);
 }

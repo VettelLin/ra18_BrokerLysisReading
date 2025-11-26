@@ -110,23 +110,40 @@ void can_user_RxCallback(CAN_HandleTypeDef *hcan, CAN_RxHeaderTypeDef *pHead, ui
 
 	/* Capture rows for the current burst; we flush in order later */
 
-    // Try capture temperature rows: accept partial (DLC>=2) and fill missing with '--'
-    if(pHead->DLC >= 2 && rxdata[0] == 0x5E){
-		uint8_t tcIdx = rxdata[1]; // 1..3
+    // Capture temperature rows:
+    // - Accept frames with header 0x5E,<idx>
+    // - Accept frames starting directly with <idx> (some nodes omit 0x5E)
+    if(pHead->DLC >= 2){
+        uint8_t hasHeader = (rxdata[0] == 0x5E);
+        uint8_t idxRaw = hasHeader ? rxdata[1] : rxdata[0];   /* 0..2 or 1..3 */
+        uint8_t tcIdx = idxRaw;
+        /* Normalize 0..2 -> 1..3 to match internal row slots */
+        if(tcIdx <= 2) tcIdx = (uint8_t)(tcIdx + 1u);
         if(tcIdx >= 1 && tcIdx <= 3){
             if(temp_burst_ctx.expecting){
-                /* copy available bytes, mark rest as missing */
+                /* Fill row buffer with available content; ensure first two bytes are 5E,idx */
                 int i;
-                for(i=0; i<rxlen && i<5; i++){
-                    temp_burst_ctx.row[tcIdx][i] = rxdata[i];
+                /* Preset all bytes to missing marker; then fill as available */
+                for(i=0; i<5; i++){
+                    temp_burst_ctx.row[tcIdx][i] = 0xFF;
                 }
-                /* ensure header 5E and idx are present even if shorter later */
                 temp_burst_ctx.row[tcIdx][0] = 0x5E;
-                temp_burst_ctx.row[tcIdx][1] = tcIdx;
-                /* consider this row present if we at least got 0x5E idx */
+                temp_burst_ctx.row[tcIdx][1] = (uint8_t)tcIdx;
+                /* Copy remaining bytes:
+                 * - If header is present: source starts at rxdata[2]
+                 * - If header omitted:    source starts at rxdata[1] (shift by one)
+                 */
+                {
+                    int src_start = hasHeader ? 2 : 1;
+                    int dst = 2;
+                    while(dst < 5 && src_start < rxlen){
+                        temp_burst_ctx.row[tcIdx][dst++] = rxdata[src_start++];
+                    }
+                }
+                /* mark row present */
                 temp_burst_ctx.mask |= (1U << (tcIdx - 1));
             }
         }
-	}
+    }
 
 }

@@ -39,12 +39,13 @@ void MX_CAN_Init(void)
   /* USER CODE END CAN_Init 1 */
   hcan.Instance = CAN1;
   /* 36MHz / (Prescaler * (1 + BS1 + BS2)) = Bitrate
-     Prescaler=3, BS1=10TQ, BS2=1TQ → 36MHz/(3*(1+10+1)) = 1 Mbps */
+     Prescaler=3, BS1=7TQ, BS2=4TQ → 36MHz/(3*(1+7+4)) = 1 Mbps
+     Sampling point = (1+BS1)/(1+BS1+BS2) = 8/12 = 66.7% */
   hcan.Init.Prescaler = 3;
   hcan.Init.Mode = CAN_MODE_NORMAL;
   hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan.Init.TimeSeg1 = CAN_BS1_10TQ;
-  hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+  hcan.Init.TimeSeg1 = CAN_BS1_7TQ;
+  hcan.Init.TimeSeg2 = CAN_BS2_4TQ;
   hcan.Init.TimeTriggeredMode = DISABLE;
   hcan.Init.AutoBusOff = ENABLE;
   hcan.Init.AutoWakeUp = ENABLE;
